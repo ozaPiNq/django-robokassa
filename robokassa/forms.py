@@ -49,7 +49,10 @@ class RobokassaForm(BaseRobokassaForm):
     SignatureValue = forms.CharField(max_length=32)
 
     # предлагаемая валюта платежа
-    IncCurrLabel = forms.CharField(max_length = 10, required=False)
+    IncCurrLabel = forms.CharField(max_length=10, required=False)
+
+    # New style robokassa currency field?
+    IncCurr = forms.CharField(max_length=10, required=False)
 
     # e-mail пользователя
     Email = forms.CharField(max_length=100, required=False)
