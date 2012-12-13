@@ -57,6 +57,8 @@ class RobokassaForm(BaseRobokassaForm):
     # язык общения с клиентом (en или ru)
     Culture = forms.CharField(max_length=10, required=False)
 
+    Group = forms.CharField(max_length=20, required=False)
+
     # Параметр с URL'ом, на который форма должны быть отправлена.
     # Может пригодиться для использования в шаблоне.
     target = FORM_TARGET
