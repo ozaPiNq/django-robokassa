@@ -62,6 +62,9 @@ class RobokassaForm(BaseRobokassaForm):
 
     Group = forms.CharField(max_length=20, required=False)
 
+    # Trying to set group
+    GroupLabel = forms.CharField(max_length=20, required=False)
+
     # Параметр с URL'ом, на который форма должны быть отправлена.
     # Может пригодиться для использования в шаблоне.
     target = FORM_TARGET
