@@ -65,6 +65,8 @@ class RobokassaForm(BaseRobokassaForm):
     # Trying to set group
     GroupLabel = forms.CharField(max_length=20, required=False)
 
+    Encoding = forms.CharField(max_length=10, required=False, initial='utf-8')
+
     # Параметр с URL'ом, на который форма должны быть отправлена.
     # Может пригодиться для использования в шаблоне.
     target = FORM_TARGET
@@ -89,7 +91,7 @@ class RobokassaForm(BaseRobokassaForm):
             val = self.initial.get(name, field.initial)
             if not val:
                 return val
-            return unicode(val).encode('1251')
+            return unicode(val).encode('utf-8')
 
         fields = [(name, _initial(name, field))
                   for name, field in self.fields.items()
