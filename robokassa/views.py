@@ -1,5 +1,7 @@
 #coding: utf-8
 
+import logging
+
 from django.http import HttpResponse
 from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -8,6 +10,8 @@ from robokassa.conf import USE_POST
 from robokassa.forms import ResultURLForm, SuccessRedirectForm, FailRedirectForm
 from robokassa.models import SuccessNotification
 from robokassa.signals import result_received, success_page_visited, fail_page_visited
+
+logger = logging.getLogger('robokassa')
 
 @csrf_exempt
 def receive_result(request):
@@ -20,14 +24,17 @@ def receive_result(request):
         # сохраняем данные об успешном уведомлении в базе, чтобы
         # можно было выполнить дополнительную проверку на странице успешного
         # заказа
-        notification = SuccessNotification.objects.create(InvId = id, OutSum = sum)
+        notification = SuccessNotification.objects.create(InvId=id, OutSum=sum)
 
         # дополнительные действия с заказом (например, смену его статуса) можно
         # осуществить в обработчике сигнала robokassa.signals.result_received
-        result_received.send(sender = notification, InvId = id, OutSum = sum,
-                             extra = form.extra_params())
+        result_received.send(sender=notification, InvId=id, OutSum=sum,
+             extra=form.extra_params())
 
+        logger.debug('OK response for order %s', id)
         return HttpResponse('OK%s' % id)
+
+    logger.error('bad signature for order %s', data.get('InvId'))
     return HttpResponse('error: bad signature')
 
 
