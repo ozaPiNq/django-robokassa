@@ -40,7 +40,7 @@ class RobokassaForm(BaseRobokassaForm):
     OutSum = forms.DecimalField(min_value=0, max_digits=20, decimal_places=2, required=False)
 
     # номер счета в магазине (должен быть уникальным для магазина)
-    InvId = forms.IntegerField(min_value=0, required=False)
+    InvId = forms.CharField(max_length=25, required=False)
 
     # описание покупки
     Desc = forms.CharField(max_length=100, required=False)
@@ -114,7 +114,7 @@ class RobokassaForm(BaseRobokassaForm):
 class ResultURLForm(BaseRobokassaForm):
     '''Форма для приема результатов и проверки контрольной суммы '''
     OutSum = forms.CharField(max_length=15)
-    InvId = forms.IntegerField(min_value=0)
+    InvId = forms.CharField(max_length=25)
     SignatureValue = forms.CharField(max_length=32)
 
     def clean(self):
