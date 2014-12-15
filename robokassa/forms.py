@@ -24,6 +24,13 @@ class BaseRobokassaForm(forms.Form):
             return ':'.join([standard_part, extra_part])
         return standard_part
 
+    def extra_params(self):
+        extra = {}
+        for param in EXTRA_PARAMS:
+            if ('shp'+param) in self.cleaned_data:
+                extra[param] = self.cleaned_data['shp'+param]
+        return extra
+
     def _get_signature(self):
         return md5(self._get_signature_string()).hexdigest().upper()
 
@@ -127,13 +134,6 @@ class ResultURLForm(BaseRobokassaForm):
 
         return self.cleaned_data
 
-    def extra_params(self):
-        extra = {}
-        for param in EXTRA_PARAMS:
-            if ('shp'+param) in self.cleaned_data:
-                extra[param] = self.cleaned_data['shp'+param]
-        return extra
-
     def _get_signature_string(self):
         _val = lambda name: unicode(self.cleaned_data[name])
         standard_part = ':'.join([_val('OutSum'), _val('InvId'), PASSWORD2])
@@ -141,7 +141,7 @@ class ResultURLForm(BaseRobokassaForm):
 
 
 class _RedirectPageForm(ResultURLForm):
-    '''Форма для проверки контрольной суммы на страницах Success и Fail'''
+    '''Форма для проверки контрольной суммы на странице Success'''
 
     Culture = forms.CharField(max_length=10)
 
@@ -150,10 +150,6 @@ class _RedirectPageForm(ResultURLForm):
         standard_part = ':'.join([_val('OutSum'), _val('InvId'), PASSWORD1])
         return self._append_extra_part(standard_part, _val)
 
-
-class FailRedirectForm(_RedirectPageForm):
-    '''Форма для проверки контрольной суммы на странице Fail'''
-    pass
 
 class SuccessRedirectForm(_RedirectPageForm):
     """ Форма для обработки страницы Success с дополнительной защитой. Она
@@ -166,3 +162,11 @@ class SuccessRedirectForm(_RedirectPageForm):
             if not SuccessNotification.objects.filter(InvId=data['InvId']):
                 raise forms.ValidationError(u'От ROBOKASSA не было предварительного уведомления')
         return data
+
+class FailRedirectForm(BaseRobokassaForm):
+    '''Форма приема результатов для перенаправления на страницу Fail'''
+    OutSum = forms.CharField(max_length=15)
+    InvId = forms.IntegerField(min_value=0)
+    Culture = forms.CharField(max_length=10)
+
+    

@@ -12,7 +12,7 @@ reload(sys).setdefaultencoding("UTF-8")
 
 setup(
     name='django-robokassa',
-    version='1.0',
+    version='1.2',
     author='Mikhail Korobov',
     author_email='kmike84@gmail.com',
 
@@ -21,7 +21,7 @@ setup(
     url='https://bitbucket.org/kmike/django-robokassa/',
     license = 'MIT license',
     description = u'Приложение для интеграции платежной системы ROBOKASSA в проекты на Django.'.encode('utf8'),
-    long_description = open('README.rst').read().decode('utf8') + open('CHANGES.rst').read().decode('utf8'),
+    long_description = open('README.rst').read().decode('utf8') + u"\n\n" + open('CHANGES.rst').read().decode('utf8'),
 
     requires=['django (>= 1.3)'],
 
@@ -33,7 +33,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.5',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Topic :: Software Development :: Libraries :: Python Modules',
