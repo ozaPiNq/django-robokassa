@@ -120,7 +120,7 @@ class RobokassaForm(BaseRobokassaForm):
 
 class ResultURLForm(BaseRobokassaForm):
     '''Форма для приема результатов и проверки контрольной суммы '''
-    OutSum = forms.CharField(max_length=15)
+    OutSum = forms.DecimalField(max_digits=12, decimal_places=2)
     InvId = forms.CharField(max_length=25)
     SignatureValue = forms.CharField(max_length=32)
 
