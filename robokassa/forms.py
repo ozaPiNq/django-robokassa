@@ -88,12 +88,13 @@ class RobokassaForm(BaseRobokassaForm):
 
         self.fields['SignatureValue'].initial = self._get_signature()
 
-    def get_redirect_params(self):
+    def get_redirect_params(self, encode_utf=True):
         def _initial(name, field):
             val = self.initial.get(name, field.initial)
             if not val:
                 return val
-            return unicode(val).encode('utf-8')
+            else:
+                return unicode(val).encode('utf-8') if encode_utf else unicode(val)
 
         return [
             (name, _initial(name, field))
