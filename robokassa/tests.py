@@ -24,6 +24,22 @@ class RobokassaFormTest(TestCase):
         self.assertEqual(form._get_signature_string(),
                          '%s::5:%s:shpparam1=None:shpparam2=None' % (LOGIN, PASSWORD1))
 
+    def testGetRedirectParams(self):
+        self.assertEqual(
+            dict(self.form.get_redirect_params()),
+            {
+                'MrchLogin': 'test_login',
+                'OutSum': '100.0',
+                'InvId': '58',
+                'Desc': 'Холодильник "Бирюса"',
+                'SignatureValue': '0EC23BE40003640B35EC07F6615FFB57',
+                'Email': 'vasia@example.com',
+                'Encoding': 'utf-8',
+                'shpparam1': 'None',
+                'shpparam2': 'None'
+            }
+        )
+
     def testRedirectUrl(self):
         url = "https://merchant.roboxchange.com/Index.aspx?MrchLogin=test_login&OutSum=100.0&InvId=58" \
         "&Desc=%D0%A5%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BB%D1%8C%D0%BD%D0%B8%D0%BA+%22%D0%91%D0%B8%D1%80%D1%8E%D1%81%D0%B0%22" \

@@ -88,23 +88,26 @@ class RobokassaForm(BaseRobokassaForm):
 
         self.fields['SignatureValue'].initial = self._get_signature()
 
-
-    def get_redirect_url(self):
-        """ Получить URL с GET-параметрами, соответствующими значениям полей в
-        форме. Редирект на адрес, возвращаемый этим методом, эквивалентен
-        ручной отправке формы методом GET.
-        """
+    def get_redirect_params(self):
         def _initial(name, field):
             val = self.initial.get(name, field.initial)
             if not val:
                 return val
             return unicode(val).encode('utf-8')
 
-        fields = [(name, _initial(name, field))
-                  for name, field in self.fields.items()
-                  if _initial(name, field)
-                 ]
-        params = urlencode(fields)
+        return [
+            (name, _initial(name, field))
+            for name, field in self.fields.items()
+            if _initial(name, field)
+        ]
+
+    def get_redirect_url(self):
+        """ Получить URL с GET-параметрами, соответствующими значениям полей в
+        форме. Редирект на адрес, возвращаемый этим методом, эквивалентен
+        ручной отправке формы методом GET.
+        """
+
+        params = urlencode(self.get_redirect_params())
         return self.target+'?'+params
 
     def _get_signature_string(self):
