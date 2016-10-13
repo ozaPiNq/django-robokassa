@@ -12,11 +12,11 @@ reload(sys).setdefaultencoding("UTF-8")
 
 setup(
     name='django-robokassa',
-    version='1.2.1',
+    version='1.2.2',
     author='Mikhail Korobov',
     author_email='kmike84@gmail.com',
 
-    packages=['robokassa', 'robokassa.migrations'],
+    packages=['robokassa'],
 
     url='https://bitbucket.org/kmike/django-robokassa/',
     license = 'MIT license',
