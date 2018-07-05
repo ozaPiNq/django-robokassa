@@ -8,7 +8,6 @@ for cmd in ('egg_info', 'develop'):
         from setuptools import setup
 
 import sys
-reload(sys).setdefaultencoding("UTF-8")
 
 setup(
     name='django-robokassa',
